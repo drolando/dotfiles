@@ -1,0 +1,18 @@
+[core]
+    excludesfile = ~/.gitignore_global
+    editor = vim
+[user]
+    name = Daniele Rolando
+    email = danielerolando90@gmail.com
+[alias]
+    st = status -sb
+    co = checkout
+    cm = commit
+    merge = merge --no-ff
+    ps = push origin HEAD
+[push]
+    default = simple
+[include]
+    path = ~/.gitconfig.local
+[commit]
+    gpgsign = false

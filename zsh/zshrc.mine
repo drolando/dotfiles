@@ -1,0 +1,76 @@
+alias l='ls'
+alias ls='ls -FG'
+alias ll='ls -l'
+alias la='ls -A'
+alias grep='grep --color'
+alias tailf='tail -f'
+alias df='df -h'
+alias su='sudo su -'
+
+# Use local command history
+setopt no_share_history
+# Don't auto cd into folder with the same name as the command
+unsetopt auto_cd
+# Disable autocorrect
+unsetopt correct_all
+
+export TERM="xterm-256color"
+
+### MAC OS X specific settings ###
+if [[ "$(uname -s)" == "Darwin" ]]
+then
+    # Enable zsh completion on Mac OS X
+    if [[ -d `brew --prefix`/share/zsh-completions/ ]]
+    then
+        fpath=(/usr/local/share/zsh-completions $fpath)
+    fi
+
+    export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+
+    export GOPATH=~/Development/go
+
+elif [[ "$(uname -s)" == "Linux" ]]
+then
+    export GOPATH=~/go
+
+    alias ls='ls -F --color'
+fi
+export PATH=$PATH:$GOPATH/bin
+
+
+# Tmux ssh-forwarding
+alias ussh="source ~/.ussh.sh"
+if [ -z "$TMUX" ];
+then
+    echo "Save SSH_AUTH_SOCK in ~/.ussh.sh"
+    echo "#!/bin/bash" > ~/.ussh.sh
+    echo "echo 'SSH_AUTH_SOCK updated'" >> ~/.ussh.sh
+    echo 'export SSH_AUTH_SOCK="'$SSH_AUTH_SOCK'"' >> ~/.ussh.sh
+    chmod +x ~/.ussh.sh
+else
+    ussh
+fi
+
+
+# Load localized .profile configs
+if [ -f ~/.zshrc.local ]
+then
+    source ~/.zshrc.local
+fi
+
+
+# Load syntax highlighting plugin
+if [[ -d ~/.dotfiles/zsh/zsh-syntax-highlighting ]]
+then
+    source ~/.dotfiles/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+ZSH_HIGHLIGHT_STYLES[alias]='fg=white'
+ZSH_HIGHLIGHT_STYLES[command]='fg=white'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=white'
+
+# Load Yelp .profile configs
+for f in ~/.dotfiles/zsh/zshrc.yelp.*
+do
+    source $f
+done
