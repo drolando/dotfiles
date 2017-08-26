@@ -36,6 +36,7 @@ then
     alias ls='ls -F --color'
 fi
 export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$HOME/.cargo/bin
 
 
 # Tmux ssh-forwarding
@@ -73,4 +74,4 @@ ZSH_HIGHLIGHT_STYLES[builtin]='fg=white'
 for f in ~/.dotfiles/zsh/zshrc.yelp.*
 do
     source $f
-done
+done 2> /dev/null
