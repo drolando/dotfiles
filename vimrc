@@ -1,5 +1,7 @@
 " ------------------------------------------------------------------------------------------
 " GENERIC CONFIGS
+
+set nocompatible
 set number
 
 set encoding=utf8  " Set utf8 as standard encoding and en_US as the standard language
@@ -107,6 +109,14 @@ autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
+
+" ------------------------------------------------------------------------------------------
+"  HOST SPECIFIC CONFIGS
+"  neovim python path requires a full absolute path, which will be different
+"  on every host
+if filereadable(glob("~/.vimrc.local"))
+    source ~/.vimrc.local
+endif
 
 " ------------------------------------------------------------------------------------------
 " PROJECT SPECIFIC CONFIGS

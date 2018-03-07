@@ -10,7 +10,6 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'scrooloose/syntastic'  " syntax checking
 Plug 'scrooloose/nerdcommenter'  " easily comment blocks of text
 Plug 'tpope/vim-fugitive'  " git wrapper
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --gocode-completer ' }
 Plug 'ctrlpvim/ctrlp.vim'  " ctrlP
 Plug 'jlanzarotta/bufexplorer'  " Manage buffers
 " use the same keys to move in vim & tmux
@@ -27,13 +26,18 @@ Plug 'rodjek/vim-puppet', { 'for': ['puppet'] }  " Puppet
 Plug 'plasticboy/vim-markdown', { 'for': ['rst', 'md'] }  " Markdown
 Plug 'keith/tmux.vim'  " tmux.conf
 
+if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
 " All of your Plugins must be added before the following line
 call plug#end()
 
-if has('nvim')
-    let g:python_host_prog = '~/.local/nvim_env/bin/python'
-endif
-
+let g:deoplete#enable_at_startup = 1
 
 " -----------------------------------------------------------------------------
 " SYNTASTIC SETTINGS

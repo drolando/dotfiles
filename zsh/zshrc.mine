@@ -74,4 +74,4 @@ ZSH_HIGHLIGHT_STYLES[builtin]='fg=white'
 for f in ~/.dotfiles/zsh/zshrc.yelp.*
 do
     source $f
-done 2> /dev/null
+done
