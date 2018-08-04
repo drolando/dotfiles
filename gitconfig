@@ -15,4 +15,6 @@
 [include]
     path = ~/.gitconfig.local
 [commit]
-    gpgsign = false
+    gpgsign = true
+
+# set vim: syntax=gitconfig ts=4 sw=4 et

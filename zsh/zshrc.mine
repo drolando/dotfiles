@@ -15,6 +15,8 @@ unsetopt auto_cd
 unsetopt correct_all
 
 export TERM="xterm-256color"
+# Neeeded to make git gpg signing work
+export GPG_TTY=$(tty)
 
 ### MAC OS X specific settings ###
 if [[ "$(uname -s)" == "Darwin" ]]
@@ -66,9 +68,9 @@ then
     source ~/.dotfiles/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
-ZSH_HIGHLIGHT_STYLES[alias]='fg=white'
-ZSH_HIGHLIGHT_STYLES[command]='fg=white'
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=white'
+ZSH_HIGHLIGHT_STYLES[alias]='fg=green'
+ZSH_HIGHLIGHT_STYLES[command]='fg=green'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=green'
 
 # Load Yelp .profile configs
 for f in ~/.dotfiles/zsh/zshrc.yelp.*
