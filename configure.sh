@@ -27,11 +27,23 @@ function clone {
 
 # Update a repository and exit on failure
 function update {
-    cd "$2"
+    cd "$2" || exit
     git fetch origin > /dev/null
     git pull > /dev/null
     fail_on_error "Failed to update $1"
-    cd "$CURR_DIR" > /dev/null
+    cd "$CURR_DIR" || exit > /dev/null
+}
+
+# Cleans a repository and exit on failure
+function clean {
+    cd "$2" || exit
+    git clean -fd > /dev/null
+    fail_on_error "Failed to clean $1"
+    git reset > /dev/null
+    fail_on_error "Failed to clean $1"
+    git checkout . > /dev/null
+    fail_on_error "Failed to clean $1"
+    cd "$CURR_DIR" || exit > /dev/null
 }
 
 # Create a symbolic link and exit on failure
@@ -125,11 +137,11 @@ else
 fi
 
 # Install patched fonts
-cd "$CURR_DIR/fonts"
+cd "$CURR_DIR/fonts" || exit
 ./install.sh
 fail_on_error "Failed to install patched fonts"
 echo -e "$OK Patched fonts updated"
-cd "$CURR_DIR"
+cd "$CURR_DIR" || exit
 
 
 # ===============================================================================
@@ -141,12 +153,12 @@ then
     clone on-my-zsh git://github.com/robbyrussell/oh-my-zsh.git "$HOME/.oh-my-zsh"
 else
     echo -e "$INFO Updating oh-my-zsh"
+    clean oh-my-zsh "$HOME/.oh-my-zsh"
     update oh-my-zsh "$HOME/.oh-my-zsh"
 fi
 
 if [[ ! -f $HOME/.oh-my-zsh/themes/drolando.zsh-theme ]]
 then
-    echo -e "$INFO Linking $HOME/.oh-my-zsh/themes/drolando.zsh-theme"
     link "$CURR_DIR/zsh/drolando.zsh-theme" "$HOME/.oh-my-zsh/themes/drolando.zsh-theme"
 fi
 
