@@ -73,7 +73,9 @@ ZSH_HIGHLIGHT_STYLES[command]='fg=green'
 ZSH_HIGHLIGHT_STYLES[builtin]='fg=green'
 
 # Load Yelp .profile configs
-for f in ~/.dotfiles/zsh/zshrc.yelp.*
-do
-    source $f
-done
+if find ~/.dotfiles/zsh/ -name 'zshrc.yelp.*' | grep zshrc > /dev/null; then
+    for f in ~/.dotfiles/zsh/zshrc.yelp.*
+    do
+        source $f
+    done
+fi
