@@ -118,10 +118,16 @@ echo -e "$OK Solarized schema installed"
 link "$CURR_DIR/vimrc" "$HOME/.vimrc"
 link "$CURR_DIR/vimrc.plugins" "$HOME/.vimrc.plugins"
 
-nvim +PlugInstall +qall
+vim +PlugUpgrade +qall
+vim +PlugClean! +qall
 vim +PlugInstall +qall
-nvim +PlugUpdate +qall
 vim +PlugUpdate +qall
+if [[ "$1" == "--nvim" ]]; then
+  nvim +PlugUpgrade +qall
+  nvim +PlugClean! +qall
+  nvim +PlugInstall +qall
+  nvim +PlugUpdate +qall
+fi
 
 echo -e "$OK Vim plugins successfully updated"
 
