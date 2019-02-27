@@ -1,0 +1,12 @@
+"python with virtualenv support
+py3 << EOF
+import os
+import sys
+
+ACTIVATE_FILE = '~/.local/share/vim_venv3/bin/activate_this.py'
+
+if os.path.exists(ACTIVATE_FILE):
+    with open(ACTIVATE_FILE) as fp:
+        code = fp.read()
+        exec(code, dict(__file__=ACTIVATE_FILE))
+EOF

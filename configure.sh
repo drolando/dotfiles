@@ -97,6 +97,12 @@ else
     update "vim-plug" "$HOME/.vim/autoload"
 fi
 
+if [ ! -d "$HOME/.local/share/nvim/site/autoload" ]; then
+    echo -e "$INFO creating neovim autoload directory"
+    mkdir -p "$HOME/.local/share/nvim/site"
+    link "$HOME/.vim/autoload" "$HOME/.local/share/nvim/site/autoload"
+fi
+
 # Install solarized
 # ------------------
 if [ ! -d "$CURR_DIR/solarized" ]
@@ -110,6 +116,8 @@ fi
 
 mkdir -p "$HOME/.vim/colors/"
 cp "$CURR_DIR/solarized/vim-colors-solarized/colors/solarized.vim" "$HOME/.vim/colors/"
+mkdir -p "$HOME/.config/nvim/colors/"
+cp "$CURR_DIR/solarized/vim-colors-solarized/colors/solarized.vim" "$HOME/.config/nvim/colors/"
 fail_on_error "Failed to install solarized schema"
 echo -e "$OK Solarized schema installed"
 
@@ -122,12 +130,15 @@ vim +PlugUpgrade +qall
 vim +PlugClean! +qall
 vim +PlugInstall +qall
 vim +PlugUpdate +qall
-if [[ "$1" == "--nvim" ]]; then
-  nvim +PlugUpgrade +qall
-  nvim +PlugClean! +qall
-  nvim +PlugInstall +qall
-  nvim +PlugUpdate +qall
+
+if [[ ! -e "$HOME/.config/nvim/init.vim" ]]; then
+    mkdir -p "$HOME/.config/nvim/"
+    link "$CURR_DIR/vimrc" "$HOME/.config/nvim/init.vim"
 fi
+nvim +PlugUpgrade +qall
+nvim +PlugClean! +qall
+nvim +PlugInstall +qall
+nvim +PlugUpdate +qall
 
 echo -e "$OK Vim plugins successfully updated"
 
