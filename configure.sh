@@ -97,10 +97,12 @@ else
     update "vim-plug" "$HOME/.vim/autoload"
 fi
 
-if [ ! -d "$HOME/.local/share/nvim/site/autoload" ]; then
-    echo -e "$INFO creating neovim autoload directory"
-    mkdir -p "$HOME/.local/share/nvim/site"
-    link "$HOME/.vim/autoload" "$HOME/.local/share/nvim/site/autoload"
+if [ "$1" == "--nvim" ]; then
+  if [ ! -d "$HOME/.local/share/nvim/site/autoload" ]; then
+      echo -e "$INFO creating neovim autoload directory"
+      mkdir -p "$HOME/.local/share/nvim/site"
+      link "$HOME/.vim/autoload" "$HOME/.local/share/nvim/site/autoload"
+  fi
 fi
 
 # Install solarized
@@ -131,14 +133,16 @@ vim +PlugClean! +qall
 vim +PlugInstall +qall
 vim +PlugUpdate +qall
 
-if [[ ! -e "$HOME/.config/nvim/init.vim" ]]; then
-    mkdir -p "$HOME/.config/nvim/"
-    link "$CURR_DIR/vimrc" "$HOME/.config/nvim/init.vim"
+if [ "$1" == "--nvim" ]; then
+  if [[ ! -e "$HOME/.config/nvim/init.vim" ]]; then
+      mkdir -p "$HOME/.config/nvim/"
+      link "$CURR_DIR/vimrc" "$HOME/.config/nvim/init.vim"
+  fi
+  nvim +PlugUpgrade +qall
+  nvim +PlugClean! +qall
+  nvim +PlugInstall +qall
+  nvim +PlugUpdate +qall
 fi
-nvim +PlugUpgrade +qall
-nvim +PlugClean! +qall
-nvim +PlugInstall +qall
-nvim +PlugUpdate +qall
 
 echo -e "$OK Vim plugins successfully updated"
 
