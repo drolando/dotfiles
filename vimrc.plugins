@@ -84,7 +84,9 @@ let g:solarized_termtrans = 1
 colorscheme solarized
 
 " LOAD PYTHON VENV
-if filereadable(glob("~/.dotfiles/vimrc.python")) && !has('nvim')
+if has('python3') && filereadable(glob("~/.dotfiles/vimrc.python3"))
+    source ~/.dotfiles/vimrc.python3
+elseif has('python') && filereadable(glob("~/.dotfiles/vimrc.python"))
     source ~/.dotfiles/vimrc.python
 endif
 

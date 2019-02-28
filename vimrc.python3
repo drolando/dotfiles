@@ -1,9 +1,9 @@
 "python with virtualenv support
-py << EOF
+py3 << EOF
 import os
 import sys
 
-ACTIVATE_FILE = '~/.local/share/vim_venv2/bin/activate_this.py'
+ACTIVATE_FILE = os.path.join(os.getenv('HOME'), '.local/share/vim_venv3/bin/activate_this.py')
 
 if os.path.exists(ACTIVATE_FILE):
     with open(ACTIVATE_FILE) as fp:
