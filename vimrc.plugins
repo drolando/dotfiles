@@ -26,6 +26,7 @@ Plug 'rodjek/vim-puppet', { 'for': ['puppet'] }  " Puppet
 Plug 'plasticboy/vim-markdown', { 'for': ['rst', 'md'] }  " Markdown
 Plug 'keith/tmux.vim'  " tmux.conf
 Plug 'plytophogy/vim-virtualenv'
+Plug 'leafgarland/typescript-vim'
 
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
