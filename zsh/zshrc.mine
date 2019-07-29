@@ -55,13 +55,6 @@ else
 fi
 
 
-# Load localized .profile configs
-if [ -f ~/.zshrc.local ]
-then
-    source ~/.zshrc.local
-fi
-
-
 # Load syntax highlighting plugin
 if [[ -d ~/.dotfiles/zsh/zsh-syntax-highlighting ]]
 then
@@ -78,4 +71,11 @@ if find ~/.dotfiles/zsh/ -name 'zshrc.yelp.*' | grep zshrc > /dev/null; then
     do
         source $f
     done
+fi
+
+
+# Load localized .profile configs
+if [ -f ~/.zshrc.local ]
+then
+    source ~/.zshrc.local
 fi
