@@ -127,6 +127,7 @@ echo -e "$OK Solarized schema installed"
 # ---------------
 link "$CURR_DIR/vimrc" "$HOME/.vimrc"
 link "$CURR_DIR/vimrc.plugins" "$HOME/.vimrc.plugins"
+link "$CURR_DIR/coc-settings.json" "$HOME/.vim/coc-settings.json"
 
 vim +PlugUpgrade +qall
 vim +PlugClean! +qall
