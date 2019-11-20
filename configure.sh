@@ -132,6 +132,8 @@ vim +PlugUpgrade +qall
 vim +PlugClean! +qall
 vim +PlugInstall +qall
 vim +PlugUpdate +qall
+vim +"CocInstall coc-python" +qall
+vim +CocUpdate +qall
 
 if [ "$1" == "--nvim" ]; then
   if [[ ! -e "$HOME/.config/nvim/init.vim" ]]; then

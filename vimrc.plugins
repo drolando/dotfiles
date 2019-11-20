@@ -3,14 +3,17 @@ call plug#begin('~/.vim/plugged')
 
 " Generic plugins
 Plug 'ap/vim-css-color'  " Display CSS color
-Plug 'bling/vim-airline'  " Nice status bar
+Plug 'vim-airline/vim-airline'  " Nice status bar
+Plug 'vim-airline/vim-airline-themes'  " Nice status bar
 Plug 'godlygeek/tabular'  " Automatically aligns the code
 " allows you to explore your filesystem
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'vim-syntastic/syntastic'  " syntax checking
 Plug 'scrooloose/nerdcommenter'  " easily comment blocks of text
 Plug 'tpope/vim-fugitive'  " git wrapper
+Plug 'tpope/vim-sleuth'  " automatically adjust shiftwidth
 Plug 'ctrlpvim/ctrlp.vim'  " ctrlP
+Plug 'FelikZ/ctrlp-py-matcher'  " ctrlP
 Plug 'jlanzarotta/bufexplorer'  " Manage buffers
 " use the same keys to move in vim & tmux
 Plug 'christoomey/vim-tmux-navigator'
@@ -18,7 +21,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'yonchu/accelerated-smooth-scroll'
 " shows which lines were added, modified, deleted, etc
 Plug 'airblade/vim-gitgutter'
-Plug 'rust-lang/rust.vim'
+Plug 'lifepillar/vim-solarized8'
 
 " Language specific
 Plug 'fatih/vim-go', { 'for': ['go', 'godoc'] }  " Golang
@@ -27,20 +30,13 @@ Plug 'plasticboy/vim-markdown', { 'for': ['rst', 'md'] }  " Markdown
 Plug 'keith/tmux.vim'  " tmux.conf
 Plug 'plytophogy/vim-virtualenv'
 Plug 'leafgarland/typescript-vim'
+Plug 'rust-lang/rust.vim'
 
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " All of your Plugins must be added before the following line
 call plug#end()
 
-let g:deoplete#enable_at_startup = 1
-let g:python3_host_prog = expand("~/.local/share/vim_venv3/bin/python")
 " Stop neovim from changing the cursor shape
 :set guicursor=
 
@@ -79,16 +75,12 @@ let g:go_highlight_build_constraints = 1
 
 " Set solarized-dark color schema
 syntax enable
+set termguicolors
 set background=dark
 let g:solarized_termtrans = 1
 " let g:solarized_termcolors=256
-colorscheme solarized
+colorscheme solarized8_high
 
-" LOAD PYTHON VENV
-if has('python3') && filereadable(glob("~/.dotfiles/vimrc.python3"))
-    source ~/.dotfiles/vimrc.python3
-elseif has('python') && filereadable(glob("~/.dotfiles/vimrc.python"))
-    source ~/.dotfiles/vimrc.python
-endif
+source ~/.dotfiles/vimrc.coc
 
 " vim: colorcolumn=80
