@@ -14,7 +14,8 @@
     default = simple
 [include]
     path = ~/.gitconfig.local
-[commit]
-    gpgsign = true
+# Disables less for `git branch`
+[pager]
+	branch = false
 
 # set vim: syntax=gitconfig ts=4 sw=4 et
