@@ -17,5 +17,7 @@
 # Disables less for `git branch`
 [pager]
 	branch = false
+[pull]
+	rebase = false
 
 # set vim: syntax=gitconfig ts=4 sw=4 et
