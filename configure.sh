@@ -76,7 +76,6 @@ function link {
 # ================================  UPDATE REPO  ================================
 # ===============================================================================
 echo -e "$INFO Updating repo"
-ussh &> /dev/null
 update .dotfiles .
 echo -e "$OK Repository successfully updated"
 
