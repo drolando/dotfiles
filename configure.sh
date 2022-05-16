@@ -172,12 +172,12 @@ cd "$CURR_DIR" || exit
 # ===============================================================================
 if [[ ! -d $HOME/.oh-my-zsh ]]
 then
+
     echo -e "$INFO Downloading oh-my-zsh"
-    clone on-my-zsh git://github.com/robbyrussell/oh-my-zsh.git "$HOME/.oh-my-zsh"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 else
     echo -e "$INFO Updating oh-my-zsh"
-    clean oh-my-zsh "$HOME/.oh-my-zsh"
-    update oh-my-zsh "$HOME/.oh-my-zsh"
+    omz update
 fi
 
 if [[ ! -f $HOME/.oh-my-zsh/themes/drolando.zsh-theme ]]
