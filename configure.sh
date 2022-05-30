@@ -177,7 +177,7 @@ then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 else
     echo -e "$INFO Updating oh-my-zsh"
-    omz update
+    /usr/bin/env zsh -c "source ~/.zshrc && omz update"
 fi
 
 if [[ ! -f $HOME/.oh-my-zsh/themes/drolando.zsh-theme ]]
