@@ -1,0 +1,18 @@
+# Essential terminal tools for this dotfiles setup
+# Run: brew bundle install --file=~/.dotfiles/Brewfile
+brew 'colordiff'
+brew 'go'
+brew 'grpcurl'
+brew 'htop'
+brew 'jq'
+brew 'neovim'
+brew 'node'
+brew 'tig'
+brew 'tmux'
+brew 'vim'
+brew 'virtualenv'
+brew 'wget'
+brew 'yq'
+brew 'zsh-autosuggestions'
+brew 'zsh-completions'
+brew 'zsh-syntax-highlighting'

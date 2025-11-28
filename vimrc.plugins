@@ -8,15 +8,13 @@ Plug 'vim-airline/vim-airline-themes'  " Nice status bar
 Plug 'godlygeek/tabular'  " Automatically aligns the code
 " allows you to explore your filesystem
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'vim-syntastic/syntastic'  " syntax checking
+Plug 'dense-analysis/ale'  " syntax checking
 Plug 'scrooloose/nerdcommenter'  " easily comment blocks of text
 Plug 'tpope/vim-fugitive'  " git wrapper
 Plug 'tpope/vim-sleuth'  " automatically adjust shiftwidth
 Plug 'ctrlpvim/ctrlp.vim'  " ctrlP
 Plug 'FelikZ/ctrlp-py-matcher'  " ctrlP
 Plug 'jlanzarotta/bufexplorer'  " Manage buffers
-" use the same keys to move in vim & tmux
-Plug 'christoomey/vim-tmux-navigator'
 " should improve the scroll performances
 Plug 'yonchu/accelerated-smooth-scroll'
 " shows which lines were added, modified, deleted, etc
@@ -24,13 +22,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'lifepillar/vim-solarized8'
 
 " Language specific
-Plug 'fatih/vim-go', { 'for': ['go', 'godoc'] }  " Golang
 Plug 'rodjek/vim-puppet', { 'for': ['puppet'] }  " Puppet
-Plug 'plasticboy/vim-markdown', { 'for': ['rst', 'md'] }  " Markdown
-Plug 'keith/tmux.vim'  " tmux.conf
 Plug 'plytophogy/vim-virtualenv'
-Plug 'leafgarland/typescript-vim'
-Plug 'rust-lang/rust.vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -41,38 +34,6 @@ call plug#end()
 :set guicursor=
 
 " -----------------------------------------------------------------------------
-" SYNTASTIC SETTINGS
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_aggregate_errors = 1
-
-let g:syntastic_warning_symbol="⚠"
-let g:syntastic_error_symbol="✗"
-let g:syntastic_enable_signs=1
-
-let g:syntastic_python_checkers = ["flake8"]
-let g:syntastic_python_flake8_args = "--max-line-length=120"
-let g:syntastic_python_pylint_args = "--disable=useless-object-inheritance,too-few-public-methods,too-many-arguments,bad-continuation,too-many-instance-attributes,no-self-use"
-
-let g:syntastic_c_remove_include_errors = 1
-
-let g:vim_markdown_folding_disabled=1  " Fix markdown files indentation
-
-
-" -----------------------------------------------------------------------------
-" GOLANG SETTINGS
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-
 " Set solarized-dark color schema
 syntax enable
 set termguicolors

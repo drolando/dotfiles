@@ -30,14 +30,12 @@ then
 
     export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
-    export GOPATH=~/Development/go
-
 elif [[ "$(uname -s)" == "Linux" ]]
 then
-    export GOPATH=~/go
 
     alias ls='ls -F --color'
 fi
+export GOPATH=~/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$HOME/.cargo/bin
 

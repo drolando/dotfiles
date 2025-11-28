@@ -60,9 +60,9 @@ link "$CURR_DIR/zsh/zshrc" "$HOME/.zshrc"
 # INSTALL DEPENDENCIES
 $BREW update > /dev/null
 yellow Installing brew packages
-$BREW install --quiet ${PACKAGES[@]} > /dev/null
+$BREW bundle install --quiet --file=~/.dotfiles/Brewfile > /dev/null
 fail_on_error "Failed to install brew packages"
-green Installed ${PACKAGES[@]}
+green Installed homebrew packages
 
 for dot in gitconfig tmux.conf vimrc vimrc.plugins
 do
