@@ -1,6 +1,9 @@
 [core]
-    excludesfile = ~/.gitignore_global
     editor = vim
+    excludesfile = ~/.gitignore_global
+    # http://stackoverflow.com/questions/18257622/why-is-git-core-preloadindex-default-value-false
+    preloadindex = true
+
 [user]
     name = Daniele Rolando
     email = danielerolando90@gmail.com
@@ -10,14 +13,24 @@
     cm = commit
     merge = merge --no-ff
     ps = push origin HEAD
+
+[fetch]
+	prune = true
+
 [push]
     default = simple
+
+[pull]
+	rebase = false
+
+[feature]
+	manyfiles = true
+
 [include]
     path = ~/.gitconfig.local
+
 # Disables less for `git branch`
 [pager]
 	branch = false
-[pull]
-	rebase = false
 
 # set vim: syntax=gitconfig ts=4 sw=4 et

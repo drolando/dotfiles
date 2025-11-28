@@ -50,6 +50,20 @@ ZSH_HIGHLIGHT_STYLES[alias]='fg=green'
 ZSH_HIGHLIGHT_STYLES[command]='fg=green'
 ZSH_HIGHLIGHT_STYLES[builtin]='fg=green'
 
+### CUSTOM FUNCTIONS
+git-rebase-on-master() {
+  current_branch=$(git branch --show-current)
+  if [ "$current_branch" = "master" ]; then
+    echo "Error: Already on master. Switch to a feature branch first."
+    return 1
+  fi
+
+  git stash --include-untracked  # Stash changes to avoid conflicts
+  git checkout master && git pull origin master
+  git checkout "$current_branch"
+  git rebase master
+  git stash pop  # Restore stashed changes
+}
 
 # Load localized .profile configs
 if [ -f ~/.zshrc.local ]
