@@ -3,6 +3,7 @@
 brew 'colordiff'
 brew 'go'
 brew 'grpcurl'
+brew 'gnupg'
 brew 'htop'
 brew 'jq'
 brew 'neovim'
