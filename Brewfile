@@ -1,9 +1,10 @@
 # Essential terminal tools for this dotfiles setup
 # Run: brew bundle install --file=~/.dotfiles/Brewfile
 brew 'colordiff'
+brew 'diffutils'
+brew 'gnupg'
 brew 'go'
 brew 'grpcurl'
-brew 'gnupg'
 brew 'htop'
 brew 'jq'
 brew 'neovim'
