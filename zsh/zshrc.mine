@@ -65,6 +65,16 @@ git-rebase-on-master() {
   git stash pop  # Restore stashed changes
 }
 
+git-clean-branches() {
+  git fetch --prune &> /dev/null
+  git branch -vv | grep 'gone]' | awk '{print $1}'
+  echo ''
+  if read -q "choice?Press Y/y to delete these branches: "; then
+    echo ''
+    git branch -vv | grep 'gone]' | awk '{print $1}' | xargs git branch -D
+  fi
+}
+
 # Load localized .profile configs
 if [ -f ~/.zshrc.local ]
 then
