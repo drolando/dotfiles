@@ -12,7 +12,7 @@
     co = checkout
     cm = commit
     merge = merge --no-ff
-    ps = push origin HEAD
+    ps = push -u origin HEAD
 
 [fetch]
 	prune = true
