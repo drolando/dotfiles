@@ -23,9 +23,9 @@ if [[ "$(uname -s)" == "Darwin" ]]
 then
     export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH
     # Enable zsh completion on Mac OS X
-    if [[ -d `brew --prefix`/share/zsh-completions/ ]]
+    if [[ -d  /opt/homebrew/share/zsh-completions ]]
     then
-        fpath=(/usr/local/share/zsh-completions $fpath)
+        fpath=(/opt/homebrew/share/zsh-completions $fpath)
     fi
 
     export HOMEBREW_CASK_OPTS="--appdir=/Applications"
@@ -62,11 +62,18 @@ git-rebase-on-master() {
   git checkout master && git pull origin master
   git checkout "$current_branch"
   git rebase master
-  git stash pop  # Restore stashed changes
+  if git stash list | grep "$current_branch" > /dev/null; then
+    git stash pop  # Restore stashed changes
+  fi
 }
 
 git-clean-branches() {
   git fetch --prune &> /dev/null
+  line_count=$(git branch -vv | grep 'gone]' | awk '{print $1}' | wc -l)
+  if [[ $line_count -eq 0 ]]; then
+    echo 'No branches to delete'
+    return 0
+  fi
   git branch -vv | grep 'gone]' | awk '{print $1}'
   echo ''
   if read -q "choice?Press Y/y to delete these branches: "; then
