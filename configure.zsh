@@ -6,29 +6,21 @@
 
 source $(pwd)/common.zsh
 
-PACKAGES=(
-    colordiff
-    go
-    htop
-    neovim
-    node
-    tig
-    tmux
-    vim
-    virtualenv
-    zsh-completions
-)
-
 # ===============================================================================
 # ================================  HOMEBREW  ====================================
 # ===============================================================================
-if [[ ! -f $BREW ]]
+if $IS_MAC
 then
-    yellow Installing brew
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    if [[ ! -f $BREW ]]
+    then
+        yellow Installing brew
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    else
+        yellow Updating brew
+        $BREW update &> /dev/null
+    fi
 else
-    yellow Updating brew
-    $BREW update &> /dev/null
+    yellow Skipping Homebrew -- not on macOS
 fi
 
 # ===============================================================================
@@ -62,10 +54,15 @@ link "$CURR_DIR/zsh/zshrc" "$HOME/.zshrc"
 # ===============================================================================
 # ================================  HOMEBREW PACKAGES  ==========================
 # ===============================================================================
-yellow Installing brew packages
-$BREW bundle install --quiet --file="$CURR_DIR/Brewfile" > /dev/null
-fail_on_error "Failed to install brew packages"
-green Installed homebrew packages
+if $IS_MAC
+then
+    yellow Installing brew packages
+    $BREW bundle install --quiet --file="$CURR_DIR/Brewfile" > /dev/null
+    fail_on_error "Failed to install brew packages"
+    green Installed homebrew packages
+else
+    yellow Skipping Homebrew packages -- apt packages on this box are provisioned separately
+fi
 
 # ===============================================================================
 # ================================  DOTFILE SYMLINKS  ===========================

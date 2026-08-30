@@ -5,6 +5,13 @@ autoload -Uz colors && colors
 CURR_DIR=$(pwd)
 BREW=/opt/homebrew/bin/brew
 
+# macOS uses Homebrew for package management; Ubuntu devboxes don't have it
+# and packages there are provisioned separately (outside this repo), so
+# scripts should check IS_MAC before doing anything Homebrew-specific.
+OS=$(uname -s)
+IS_MAC=false
+[[ "$OS" == "Darwin" ]] && IS_MAC=true
+
 function yellow() {
     print -- $fg_bold[yellow]$*$reset_color
 }
