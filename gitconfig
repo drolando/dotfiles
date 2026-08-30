@@ -3,6 +3,13 @@
     excludesfile = ~/.gitignore_global
     # http://stackoverflow.com/questions/18257622/why-is-git-core-preloadindex-default-value-false
     preloadindex = true
+    # Ask a filesystem watcher which tracked paths changed instead of
+    # stat-ing every file on status/add/diff -- biggest single win on a
+    # repo this size. Uses git's built-in daemon (2.37+); if it misbehaves
+    # on a given box, switch to `fsmonitor = watchman` instead.
+    fsmonitor = true
+    # Precomputed ancestry graph speeds up log/blame/history walks
+    commitGraph = true
 
 [user]
     name = Daniele Rolando
@@ -16,6 +23,7 @@
 
 [fetch]
 	prune = true
+	writeCommitGraph = true
 
 [push]
     default = simple
@@ -25,6 +33,15 @@
 
 [feature]
 	manyfiles = true
+
+# git status computing ahead/behind-of-upstream requires walking history,
+# which gets expensive on a repo this size -- skip it
+[status]
+	aheadBehind = false
+
+# Faster ref negotiation on fetch; matters more the more branches a repo has
+[protocol]
+	version = 2
 
 [include]
     path = ~/.gitconfig.local
