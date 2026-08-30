@@ -2,7 +2,6 @@
 #
 autoload -Uz colors && colors
 
-CURR_DIR=$(pwd)
 BREW=/opt/homebrew/bin/brew
 
 # macOS uses Homebrew for package management; Ubuntu devboxes don't have it

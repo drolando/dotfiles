@@ -4,7 +4,8 @@
 # one. Every step below is idempotent -- installs what's missing, updates
 # what's already there -- so this is safe to (re)run on any box, any time.
 
-source $(pwd)/common.zsh
+CURR_DIR=~/.dotfiles
+source $CURR_DIR/common.zsh
 
 # ===============================================================================
 # ================================  HOMEBREW  ====================================
