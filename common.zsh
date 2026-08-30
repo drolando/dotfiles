@@ -40,27 +40,33 @@ function link {
     SOURCE_FILE=$1
     TARGET_FILE=$2
 
-    if [[ ! -f $TARGET_FILE && ! -L $TARGET_FILE ]]
+    if [[ -L $TARGET_FILE ]]
     then
+        # Already a symlink -- if it points somewhere else, there's nothing
+        # to lose by overwriting it, so force-relink without backing up.
+        if [[ $(readlink -f "$TARGET_FILE") != $(readlink -f "$SOURCE_FILE") ]]
+        then
+            yellow Relinking $TARGET_FILE
+            ln -sf "$SOURCE_FILE" "$TARGET_FILE"
+            fail_on_error "Failed to relink $TARGET_FILE"
+        fi
+    elif [[ -f $TARGET_FILE ]]
+    then
+        # A real file with actual content -- back it up before replacing it
+        yellow Backing up old file as $TARGET_FILE.old
+        mv "$TARGET_FILE" "$TARGET_FILE.old"
+        fail_on_error "Failed to backup $TARGET_FILE"
+
         yellow Linking $TARGET_FILE
         ln -s "$SOURCE_FILE" "$TARGET_FILE"
         fail_on_error "Failed to create symlink $TARGET_FILE"
     else
-        # If the file esists but it's not a symbolic link, backup it and
-        # create the symbolic link
-        if [[ ! -L $TARGET_FILE || $(readlink -f $TARGET_FILE) != $SOURCE_FILE ]]
-        then
-            yellow Backing up old file as $TARGET_FILE.old
-            mv "$TARGET_FILE" "$TARGET_FILE.old"
-            fail_on_error "Failed to backup $TARGET_FILE"
-
-            yellow Linking $TARGET_FILE
-            ln -s "$SOURCE_FILE" "$TARGET_FILE"
-            fail_on_error "Failed to create symlink $TARGET_FILE"
-        fi
+        yellow Linking $TARGET_FILE
+        ln -s "$SOURCE_FILE" "$TARGET_FILE"
+        fail_on_error "Failed to create symlink $TARGET_FILE"
     fi
 
-    if [[ -L $TARGET_FILE && $(readlink -f $TARGET_FILE) == $SOURCE_FILE ]]
+    if [[ -L $TARGET_FILE && $(readlink -f "$TARGET_FILE") == $(readlink -f "$SOURCE_FILE") ]]
     then
         green $TARGET_FILE was correctly linked
     else

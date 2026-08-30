@@ -7,16 +7,11 @@ Plug 'vim-airline/vim-airline'  " Nice status bar
 Plug 'vim-airline/vim-airline-themes'  " Nice status bar
 Plug 'godlygeek/tabular'  " Automatically aligns the code
 " allows you to explore your filesystem
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'dense-analysis/ale'  " syntax checking
-Plug 'scrooloose/nerdcommenter'  " easily comment blocks of text
+Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'preservim/nerdcommenter'  " easily comment blocks of text
 Plug 'tpope/vim-fugitive'  " git wrapper
 Plug 'tpope/vim-sleuth'  " automatically adjust shiftwidth
-Plug 'ctrlpvim/ctrlp.vim'  " ctrlP
-Plug 'FelikZ/ctrlp-py-matcher'  " ctrlP
 Plug 'jlanzarotta/bufexplorer'  " Manage buffers
-" should improve the scroll performances
-Plug 'yonchu/accelerated-smooth-scroll'
 " shows which lines were added, modified, deleted, etc
 Plug 'airblade/vim-gitgutter'
 Plug 'lifepillar/vim-solarized8'
@@ -25,7 +20,16 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'rodjek/vim-puppet', { 'for': ['puppet'] }  " Puppet
 Plug 'plytophogy/vim-virtualenv'
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Native LSP (Neovim only — plain Vim boxes get no LSP/completion)
+if has('nvim')
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'hrsh7th/nvim-cmp'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-path'
+    Plug 'L3MON4D3/LuaSnip'
+    Plug 'saadparwaiz1/cmp_luasnip'
+endif
 
 " All of your Plugins must be added before the following line
 call plug#end()
@@ -42,6 +46,8 @@ let g:solarized_termtrans = 1
 " let g:solarized_termcolors=256
 colorscheme solarized8_high
 
-source ~/.dotfiles/vimrc.coc
+if has('nvim')
+    source ~/.dotfiles/vim/vimrc.lsp
+endif
 
 " vim: colorcolumn=80

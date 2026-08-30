@@ -1,11 +1,90 @@
 #!/usr/bin/env zsh
+#
+# Single entry point for both fresh-machine setup and updating an existing
+# one. Every step below is idempotent -- installs what's missing, updates
+# what's already there -- so this is safe to (re)run on any box, any time.
 
 source $(pwd)/common.zsh
+
+PACKAGES=(
+    colordiff
+    go
+    htop
+    neovim
+    node
+    tig
+    tmux
+    vim
+    virtualenv
+    zsh-completions
+)
+
+# ===============================================================================
+# ================================  HOMEBREW  ====================================
+# ===============================================================================
+if [[ ! -f $BREW ]]
+then
+    yellow Installing brew
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+    yellow Updating brew
+    $BREW update &> /dev/null
+fi
 
 # ===============================================================================
 # ================================  UPDATE REPO  ================================
 # ===============================================================================
 update .dotfiles .
+
+# ===============================================================================
+# ===================================  ZSH  =====================================
+# ===============================================================================
+if [[ ! -d $HOME/.oh-my-zsh ]]
+then
+    yellow Downloading oh-my-zsh
+    # --unattended (RUNZSH=no CHSH=no) so the installer doesn't try to exec
+    # into a fresh interactive shell or change the login shell -- both of
+    # which hang/misbehave when this script isn't run interactively.
+    RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" > /dev/null
+    fail_on_error "Failed to install oh-my-zsh"
+    green Installed oh-my-zsh
+else
+    yellow Updating oh-my-zsh
+    ZSH="$HOME/.oh-my-zsh" zsh -f "$HOME/.oh-my-zsh/tools/upgrade.sh" -v silent > /dev/null
+fi
+
+link "$CURR_DIR/zsh/drolando.zsh-theme" "$HOME/.oh-my-zsh/themes/drolando.zsh-theme"
+
+update_or_clone "zsh-syntax-highlighting" https://github.com/zsh-users/zsh-syntax-highlighting.git "$CURR_DIR/zsh/zsh-syntax-highlighting"
+
+link "$CURR_DIR/zsh/zshrc" "$HOME/.zshrc"
+
+# ===============================================================================
+# ================================  HOMEBREW PACKAGES  ==========================
+# ===============================================================================
+yellow Installing brew packages
+$BREW bundle install --quiet --file="$CURR_DIR/Brewfile" > /dev/null
+fail_on_error "Failed to install brew packages"
+green Installed homebrew packages
+
+# ===============================================================================
+# ================================  DOTFILE SYMLINKS  ===========================
+# ===============================================================================
+for dot in gitconfig tmux.conf
+do
+  link "$CURR_DIR/$dot" "$HOME/.$dot"
+done
+
+# vimrc and vimrc.plugins live under vim/, but vimrc's own
+# `source ~/.vimrc.plugins` line expects that exact target name in $HOME,
+# so these still link to ~/.vimrc / ~/.vimrc.plugins, just from that source.
+link "$CURR_DIR/vim/vimrc" "$HOME/.vimrc"
+link "$CURR_DIR/vim/vimrc.plugins" "$HOME/.vimrc.plugins"
+
+mkdir -p "$HOME/.vim"
+mkdir -p "$HOME/.vim/plugged"
+mkdir -p "$HOME/.config/nvim/"
+link "$CURR_DIR/vim/vimrc" "$HOME/.config/nvim/init.vim"
 
 # ===============================================================================
 # =============================  VIM CONFIGURATION  =============================
@@ -40,16 +119,16 @@ fi
 
 # Install plugins
 # ---------------
-link "$CURR_DIR/coc-settings.json" "$HOME/.vim/coc-settings.json"
-
+# Note: LSP servers (pyright, gopls, etc.) are NOT installed here -- CoC's
+# npm-based auto-install was replaced with native Neovim LSP (vim/vimrc.lsp).
+# Install the servers you need directly on each box, e.g.
+# `pip install pyright` / `go install golang.org/x/tools/gopls@latest`.
 for VIM in vim nvim
 do
     $VIM +PlugUpgrade +qall
-    $VIM +PlugClean! +qall
-    $VIM +PlugInstall +qall
-    $VIM +PlugUpdate +qall
-    $VIM +"CocInstall coc-python" +qall
-    $VIM +CocUpdate +qall
+    $VIM +"PlugClean! --sync" +qall
+    $VIM +"PlugInstall --sync" +qall
+    $VIM +"PlugUpdate --sync" +qall
 done
 
 green Vim plugins updated
@@ -65,11 +144,4 @@ fail_on_error "Failed to install patched fonts"
 green Patched fonts updated
 cd "$CURR_DIR" || exit
 
-
-# ===============================================================================
-# ===================================  ZSH  =====================================
-# ===============================================================================
-yellow Updating oh-my-zsh
-/usr/bin/env zsh -c "source ~/.zshrc && omz update" > /dev/null
-
-update "zsh-syntax-highlighting" "$CURR_DIR/zsh/zsh-syntax-highlighting"
+# vim: shiftwidth=4 smarttab expandtab

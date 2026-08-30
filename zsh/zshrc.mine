@@ -21,7 +21,7 @@ export GPG_TTY=$(tty)
 ### MAC OS X specific settings ###
 if [[ "$(uname -s)" == "Darwin" ]]
 then
-    export PATH=/opt/homebrew/bin:$PATH
+    export PATH=/opt/homebrew/bin:/opt/homebrew/sbin:$PATH
     # Enable zsh completion on Mac OS X
     if [[ -d `brew --prefix`/share/zsh-completions/ ]]
     then

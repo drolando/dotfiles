@@ -12,6 +12,12 @@ set autoread        " Set to auto read when a file is changed from the outside
 
 set backspace=indent,eol,start  " Allow backspacing over everything in insert mode
 
+" Skip probing for Node/Perl/Ruby plugin hosts -- nothing in this config
+" uses them, so this just avoids unnecessary provider warnings/startup work
+let g:loaded_node_provider = 0
+let g:loaded_perl_provider = 0
+let g:loaded_ruby_provider = 0
+
 " ENABLE FILETYPE PLUGINS
 filetype plugin on
 syntax enable
